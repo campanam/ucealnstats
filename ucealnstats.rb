@@ -2,7 +2,7 @@
 
 #----------------------------------------------------------------------------------------
 # ucealnstats
-UCEALNSTATSVER = "0.2.0"
+UCEALNSTATSVER = "0.3.0"
 # Michael G. Campana, 2020
 # Smithsonian Conservation Biology Institute
 #----------------------------------------------------------------------------------------
@@ -14,8 +14,8 @@ $totallength = 0 # Length of complete alignment
 #----------------------------------------------------------------------------------------
 class TaxonUce # Object holding taxon-specific information 
 	# ucecount: total number of UCEs covered
-	# gappedlength: total alignment length including gaps
-	# ungappedlength: total aligned length excluding gaps
+	# gappedlength: total alignment length including gaps. Converted to array for SD calcs
+	# ungappedlength: total aligned length excluding gaps. Converted to array for SD calcs
 	# sampleucelength: total length of UCE alignments for which this sample has data
 	attr_accessor	:ucecount, :gappedlength, :ungappedlength, :sampleucelength
 	def initialize(ucecount, gappedlength, ungappedlength, sampleucelength)
@@ -27,6 +27,13 @@ def get_tag_value(line,tag)
 	tag_value = line.split.find { |form| /#{tag}/ =~ form }
 	tag_value = tag_value[tag.length + 1..-1].delete(";")
 	return tag_value
+end
+#----------------------------------------------------------------------------------------
+def stdev(length_arr, mean, missing_loci = 0)
+	#length_arr is array of length values, mean is precalculated mean length, missing_loci is number of 0 length loci to add in
+	add = length_arr.map {|val| (val.to_f - mean) ** 2}
+	st = Math.sqrt((add.reduce(:+) + missing_loci.to_f * (0.0 - mean) ** 2)/(length_arr.size + missing_loci - 1).to_f)
+	return st
 end
 #----------------------------------------------------------------------------------------
 def get_files
@@ -51,12 +58,12 @@ def get_files
 									gappedlength = @current_samples[sample].delete(missing).length # Using delete! returns empty string if no matches
 									ungappedlength = @current_samples[sample].delete(missing).delete(gap).length
 									if !$samples.keys.include?(sample)
-										taxuce = TaxonUce.new(1, gappedlength, ungappedlength, ucelength)
+										taxuce = TaxonUce.new(1, [gappedlength], [ungappedlength], ucelength)
 										$samples[sample] = taxuce
 									else
 										$samples[sample].ucecount += 1
-										$samples[sample].gappedlength += gappedlength
-										$samples[sample].ungappedlength += ungappedlength
+										$samples[sample].gappedlength.push(gappedlength)
+										$samples[sample].ungappedlength.push(ungappedlength)
 										$samples[sample].sampleucelength += ucelength
 									end
 								end
@@ -96,14 +103,25 @@ def print_results
 	puts "Total UCE Alignment Length: " + $totallength.to_s
 	puts ""
 	puts "Sample Statistics"
-	puts "Sample\tCapturedUCEs\tMissingUCEs\tGappedAlignmentLength\tUngappedAlignmentLength\tTotalLengthCapturedUCEs\tMeanGapped(Missing)\tMeanUngapped(Missing)\tMeanGapped(NoMissing)\tMeanUngapped(NoMissing)\tCoverage(Missing)\tCoverage(NoMissing)"
+	puts "Sample\tCapturedUCEs\tMissingUCEs\tGappedAlignmentLength\tUngappedAlignmentLength\tTotalLengthCapturedUCEs\tMeanGapped(Missing)±SD\tMeanUngapped(Missing)±SD\tMeanGapped(NoMissing)±SD\tMeanUngapped(NoMissing)±SD\tCoverage(Missing)\tCoverage(NoMissing)"
 	# MeanGapped(Missing) & MeanUngapped(Missing) are mean UCE lengths including missing loci
 	# MeanGapped(NoMissing) & MeanUngapped(NoMissing) are mean UCE lengths excluding missing loci
 	# Coverage(Missing) is Gapped Length/Total UCE alignment length
 	# Coverage(NoMissing) is Gapped Length/Covered UCE alignment length
 	for sample in $samples.keys
 		sam = $samples[sample]
-		puts [sample, sam.ucecount, $totaluces - sam.ucecount, sam.gappedlength, sam.ungappedlength, sam.sampleucelength, sam.gappedlength.to_f/$totaluces.to_f, sam.ungappedlength.to_f/$totaluces.to_f, sam.gappedlength.to_f/sam.ucecount.to_f, sam.ungappedlength.to_f/sam.ucecount.to_f, sam.gappedlength.to_f/$totallength.to_f, sam.gappedlength.to_f/sam.sampleucelength.to_f].join("\t")
+		ucemiss = $totaluces - sam.ucecount # Number of missing loci
+		glength = sam.gappedlength.reduce(:+) # Total gapped length
+		ulength = sam.ungappedlength.reduce(:+) # Total ungapped length
+		gmissmean = glength.to_f/$totaluces.to_f # Mean gapped length including missing loci
+		gmisssd =  stdev(sam.gappedlength, gmissmean, ucemiss) # Stdev gapped length including missing loci
+		umissmean = ulength.to_f/$totaluces.to_f # Mean ungapped length including missing loci
+		umisssd =  stdev(sam.ungappedlength, umissmean, ucemiss) # Stdev ungapped length including missing loci
+		gmean = glength.to_f/sam.ucecount.to_f # Mean gapped length excluding missing loci
+		gsd =  stdev(sam.gappedlength, gmean) # Stdev gapped length excluding missing loci
+		umean = ulength.to_f/sam.ucecount.to_f # Mean ungapped length excluding missing loci
+		usd =  stdev(sam.ungappedlength, umean) # Stdev ungapped length excluding missing loci
+		puts [sample, sam.ucecount, ucemiss, glength, ulength, sam.sampleucelength, gmissmean.to_s + "±" + gmisssd.to_s, umissmean.to_s + "±" + umisssd.to_s, gmean.to_s + "±" + gsd.to_s, umean.to_s + "±" + usd.to_s, glength.to_f/$totallength.to_f, glength.to_f/sam.sampleucelength.to_f].join("\t")
 	end
 end
 #----------------------------------------------------------------------------------------
