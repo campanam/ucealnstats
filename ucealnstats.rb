@@ -2,7 +2,7 @@
 
 #----------------------------------------------------------------------------------------
 # ucealnstats
-UCEALNSTATSVER = "0.1.0"
+UCEALNSTATSVER = "0.2.0"
 # Michael G. Campana, 2020
 # Smithsonian Conservation Biology Institute
 #----------------------------------------------------------------------------------------
@@ -14,13 +14,12 @@ $totallength = 0 # Length of complete alignment
 #----------------------------------------------------------------------------------------
 class TaxonUce # Object holding taxon-specific information 
 	# ucecount: total number of UCEs covered
-	# ucemissing: total number of UCEs missing
 	# gappedlength: total alignment length including gaps
 	# ungappedlength: total aligned length excluding gaps
 	# sampleucelength: total length of UCE alignments for which this sample has data
-	attr_accessor	:ucecount, :ucemissing, :gappedlength, :ungappedlength, :sampleucelength
-	def initialize(ucecount, ucemissing, gappedlength, ungappedlength, sampleucelength)
-		@ucecount, @ucemissing, @gappedlength, @ungappedlength, @sampleucelength = ucecount, ucemissing, gappedlength, ungappedlength, sampleucelength
+	attr_accessor	:ucecount, :gappedlength, :ungappedlength, :sampleucelength
+	def initialize(ucecount, gappedlength, ungappedlength, sampleucelength)
+		@ucecount, @gappedlength, @ungappedlength, @sampleucelength = ucecount, gappedlength, ungappedlength, sampleucelength
 	end
 end
 #----------------------------------------------------------------------------------------
@@ -41,7 +40,6 @@ def get_files
 				missing = "?" # Default missing character
 				gap = "-" # Default gap character
 				ucelength = 0 # Default alignment length
-				samples_observed = [] # Array of samples included in this alignment to compare against total dataset
 				File.open(File.expand_path(ARGV[0]) + "/" + file) do |f1|
 					while line = f1.gets
 						if line.upcase.strip == "BEGIN DATA;"
@@ -53,20 +51,14 @@ def get_files
 									gappedlength = @current_samples[sample].delete(missing).length # Using delete! returns empty string if no matches
 									ungappedlength = @current_samples[sample].delete(missing).delete(gap).length
 									if !$samples.keys.include?(sample)
-										taxuce = TaxonUce.new(1,$totaluces-1, gappedlength, ungappedlength, ucelength) # Number of missing UCEs equals the total number of UCEs read minus this one
+										taxuce = TaxonUce.new(1, gappedlength, ungappedlength, ucelength)
 										$samples[sample] = taxuce
-										samples_observed.push(sample)
 									else
 										$samples[sample].ucecount += 1
 										$samples[sample].gappedlength += gappedlength
 										$samples[sample].ungappedlength += ungappedlength
 										$samples[sample].sampleucelength += ucelength
-										samples_observed.push(sample)
 									end
-								end
-								# Identify and correct samples missing from this alignment
-								for sample in $samples.keys
-									$samples[sample].ucemissing += 1 unless samples_observed.include?(sample)
 								end
 								break # Skip rest of nexus file
 							elsif line.upcase.strip == "MATRIX"
@@ -111,7 +103,7 @@ def print_results
 	# Coverage(NoMissing) is Gapped Length/Covered UCE alignment length
 	for sample in $samples.keys
 		sam = $samples[sample]
-		puts [sample, sam.ucecount, sam.ucemissing, sam.gappedlength, sam.ungappedlength, sam.sampleucelength, sam.gappedlength.to_f/$totaluces.to_f, sam.ungappedlength.to_f/$totaluces.to_f, sam.gappedlength.to_f/sam.ucecount.to_f, sam.ungappedlength.to_f/sam.ucecount.to_f, sam.gappedlength.to_f/$totallength.to_f, sam.gappedlength.to_f/sam.sampleucelength.to_f].join("\t")
+		puts [sample, sam.ucecount, $totaluces - sam.ucecount, sam.gappedlength, sam.ungappedlength, sam.sampleucelength, sam.gappedlength.to_f/$totaluces.to_f, sam.ungappedlength.to_f/$totaluces.to_f, sam.gappedlength.to_f/sam.ucecount.to_f, sam.ungappedlength.to_f/sam.ucecount.to_f, sam.gappedlength.to_f/$totallength.to_f, sam.gappedlength.to_f/sam.sampleucelength.to_f].join("\t")
 	end
 end
 #----------------------------------------------------------------------------------------
