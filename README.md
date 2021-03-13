@@ -15,7 +15,7 @@ Move the ucealnstats.rb script to a target destination: `mv ucealnstats/ucealnst
 
 ## Usage  
 ### Input  
-The ucealnstats.rb expects the UCE alignments to be contained within a single directory. UCE alignments should be in NEXUS format.  
+The ucealnstats.rb expects the UCE alignments to be contained within a single directory. UCE alignments should be in NEXUS format with '.nex' or '.nexus' extensions.  
 
 ## Execution  
 Execute the script using the command `ruby ucealnstats.rb <directory of UCE alignments>`. Output can be redirected from standard output to a file using `>`, e.g. the command `ruby ucealnstats.rb test_dir > test_results.tsv` will collect alignment statistics from UCE alignments within the directory 'test_dir' and print them to the file 'test_results.tsv'.  
