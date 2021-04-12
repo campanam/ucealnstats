@@ -1,6 +1,6 @@
 # ucealnstats
 
-Michael G. Campana, 2020
+Michael G. Campana, 2020  
 Smithsonian Conservation Biology Institute
 
 Script to calculate taxon-specific alignment statistics from a collection of UCE alignments  
