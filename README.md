@@ -3,7 +3,7 @@
 Michael G. Campana, 2020  
 Smithsonian Institution  
 
-Script to calculate taxon-specific alignment statistics from a collection of UCE alignments  
+Script to calculate taxon-specific alignment statistics from a collection of ultraconserved element (UCE) alignments  
 
 ## License  
 The software has been placed in the public domain under the [CC0 Waiver](http://creativecommons.org/publicdomain/zero/1.0/).  
