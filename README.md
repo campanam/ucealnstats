@@ -6,7 +6,7 @@ Smithsonian Conservation Biology Institute
 Script to calculate taxon-specific alignment statistics from a collection of UCE alignments  
 
 ## License  
-The software is made available under the [Apache-2 license](http://www.apache.org/licenses/LICENSE-2.0).  
+The software has been placed in the public domain under the [CC0 Waiver](http://creativecommons.org/publicdomain/zero/1.0/).  
 
 ## Installation  
 Clone the repository: `git clone https://github.com/campanam/ucealnstats`  
@@ -15,7 +15,7 @@ Move the ucealnstats.rb script to a target destination: `mv ucealnstats/ucealnst
 
 ## Usage  
 ### Input  
-The ucealnstats.rb expects the UCE alignments to be contained within a single directory. UCE alignments should be in NEXUS format with '.nex' or '.nexus' extensions.  
+The ucealnstats.rb script expects the UCE alignments to be contained within a single directory. UCE alignments should be in NEXUS format with '.nex' or '.nexus' extensions.  
 
 ## Execution  
 Execute the script using the command `ruby ucealnstats.rb <directory of UCE alignments>`. Output can be redirected from standard output to a file using `>`, e.g. the command `ruby ucealnstats.rb test_dir > test_results.tsv` will collect alignment statistics from UCE alignments within the directory 'test_dir' and print them to the file 'test_results.tsv'.  
@@ -42,5 +42,6 @@ The script will then print per-sample alignment statistics:
 11. Coverage(Missing): Sample coverage including missing loci defined as GappedAlignmentLength/Total UCE alignment length.  
 12. Coverage(NoMissing): Sample coverage excluding missing loci defined as GappedAlignmentLength/TotalLengthCapturedUCEs.  
 
-## ucealnstats Citations  
-Campana, M.G. 2020. ucealnstats. https://github.com/campanam/ucealnstats.  
+## ucealnstats Citation  
+We politely request that you cite this script as:
+Campana, M.G. 2020. ucealnstats. Smithsonian Conservation Biology Institute. https://github.com/campanam/ucealnstats.  
