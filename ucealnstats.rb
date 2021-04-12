@@ -16,7 +16,7 @@
 # ucealnstats
 UCEALNSTATSVER = "0.3.0"
 # Michael G. Campana, 2020
-# Smithsonian Conservation Biology Institute
+# Smithsonian Institution
 #----------------------------------------------------------------------------------------
 
 $samples = {} # Hash of samples and alignment statistics
