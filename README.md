@@ -1,7 +1,7 @@
 # ucealnstats
 
 Michael G. Campana, 2020  
-Smithsonian Conservation Biology Institute
+Smithsonian Institution  
 
 Script to calculate taxon-specific alignment statistics from a collection of UCE alignments  
 
@@ -44,4 +44,4 @@ The script will then print per-sample alignment statistics:
 
 ## ucealnstats Citation  
 We politely request that you cite this script as:
-Campana, M.G. 2020. ucealnstats. Smithsonian Conservation Biology Institute. https://github.com/campanam/ucealnstats.  
+Campana, M.G. 2020. ucealnstats. Smithsonian Institution. https://github.com/campanam/ucealnstats.  
