@@ -10,7 +10,7 @@
 # work. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 # We politely request that this work be cited as: 
-# Campana, M.G. 2020. ucealnstats. Smithsonian Conservation Biology Institute. <https://github.com/campanam/ucealnstats>.
+# Campana, M.G. 2020. ucealnstats. Smithsonian Institution. <https://github.com/campanam/ucealnstats>.
 
 #----------------------------------------------------------------------------------------
 # ucealnstats
