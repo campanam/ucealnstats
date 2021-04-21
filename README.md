@@ -43,5 +43,5 @@ The script will then print per-sample alignment statistics:
 12. Coverage(NoMissing): Sample coverage excluding missing loci defined as GappedAlignmentLength/TotalLengthCapturedUCEs.  
 
 ## ucealnstats Citation  
-We politely request that you cite this script as:
+We politely request that you cite this script as:  
 Campana, M.G. 2020. ucealnstats. Smithsonian Institution. https://github.com/campanam/ucealnstats.  
