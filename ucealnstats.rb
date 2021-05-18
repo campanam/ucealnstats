@@ -2,12 +2,11 @@
 
 # ucealnstats by Smithsonian Institution
 
-# To the extent possible under law, the person who associated CC0 with
-# ucealnstats has waived all copyright and related or neighboring rights
-# to ucealnstats.
-
-# You should have received a copy of the CC0 legalcode along with this
-# work. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+# CC0; To the extent possible under law, the Smithsonian Institution has
+# waived all copyright and related or neighboring rights to ucealnstats;
+# this work is published from the United States. You should have received 
+# a copy of the CC0 legalcode along with this work. If not, see 
+# <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 # We politely request that this work be cited as: 
 # Campana, M.G. 2020. ucealnstats. Smithsonian Institution. <https://github.com/campanam/ucealnstats>.
