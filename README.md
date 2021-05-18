@@ -5,8 +5,13 @@ Smithsonian Institution
 
 Script to calculate taxon-specific alignment statistics from a collection of ultraconserved element (UCE) alignments  
 
-## License  
-The software has been placed in the public domain under the [CC0 Waiver](http://creativecommons.org/publicdomain/zero/1.0/).  
+## Creative Commons 0 Waiver  
+![image](https://user-images.githubusercontent.com/19614608/118704084-bf02f280-b7e4-11eb-8d59-0ce648313d9e.png)  
+To the extent possible under law, the Smithsonian Institution has waived all copyright and related or neighboring rights to ucealnstats; this work is published from the United States. You should have received a copy of the CC0 legal code along with this work. If not, see http://creativecommons.org/publicdomain/zero/1.0/.  
+
+## Citation  
+We politely request that you cite this script as:  
+Campana, M.G. 2020. ucealnstats. Smithsonian Institution. https://github.com/campanam/ucealnstats.  
 
 ## Installation  
 Clone the repository: `git clone https://github.com/campanam/ucealnstats`  
@@ -41,7 +46,3 @@ The script will then print per-sample alignment statistics:
 10. MeanUngapped(NoMissing): Sample mean ungapped UCE lengths excluding missing loci.  
 11. Coverage(Missing): Sample coverage including missing loci defined as GappedAlignmentLength/Total UCE alignment length.  
 12. Coverage(NoMissing): Sample coverage excluding missing loci defined as GappedAlignmentLength/TotalLengthCapturedUCEs.  
-
-## ucealnstats Citation  
-We politely request that you cite this script as:  
-Campana, M.G. 2020. ucealnstats. Smithsonian Institution. https://github.com/campanam/ucealnstats.  
